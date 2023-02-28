@@ -25,7 +25,7 @@ namespace Project_MovieWebAPIASPNETCore.Models.Domain
         [MaxLength(2000)]
         public string? Trailer { get; set; }
 
-        public int? FranchisedId { get; set; }
+        public int? FranchiseId { get; set; }
         public Franchise? Franchise { get; set; }
 
         public ICollection<Character?> Characters { get; set; }

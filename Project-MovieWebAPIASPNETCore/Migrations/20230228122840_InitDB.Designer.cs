@@ -12,8 +12,8 @@ using Project_MovieWebAPIASPNETCore.Models;
 namespace Project_MovieWebAPIASPNETCore.Migrations
 {
     [DbContext(typeof(MovieDBContext))]
-    [Migration("20230228083033_InitialMaxLengthAndFK")]
-    partial class InitialMaxLengthAndFK
+    [Migration("20230228122840_InitDB")]
+    partial class InitDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,20 +27,42 @@ namespace Project_MovieWebAPIASPNETCore.Migrations
 
             modelBuilder.Entity("CharacterMovie", b =>
                 {
-                    b.Property<int>("CharactersCharacterId")
+                    b.Property<int>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MoviesMovieId")
+                    b.Property<int>("CharacterId")
                         .HasColumnType("int");
 
-                    b.HasKey("CharactersCharacterId", "MoviesMovieId");
+                    b.HasKey("MovieId", "CharacterId");
 
-                    b.HasIndex("MoviesMovieId");
+                    b.HasIndex("CharacterId");
 
                     b.ToTable("CharacterMovie");
+
+                    b.HasData(
+                        new
+                        {
+                            MovieId = 1,
+                            CharacterId = 1
+                        },
+                        new
+                        {
+                            MovieId = 2,
+                            CharacterId = 1
+                        },
+                        new
+                        {
+                            MovieId = 3,
+                            CharacterId = 1
+                        },
+                        new
+                        {
+                            MovieId = 4,
+                            CharacterId = 1
+                        });
                 });
 
-            modelBuilder.Entity("Project_MovieWebAPIASPNETCore.Models.Character", b =>
+            modelBuilder.Entity("Project_MovieWebAPIASPNETCore.Models.Domain.Character", b =>
                 {
                     b.Property<int>("CharacterId")
                         .ValueGeneratedOnAdd()
@@ -72,7 +94,7 @@ namespace Project_MovieWebAPIASPNETCore.Migrations
                         new
                         {
                             CharacterId = 1,
-                            Alias = "HBO",
+                            Alias = "David",
                             FullName = "David Swax",
                             Gender = "Male",
                             Picture = "PicturLink"
@@ -80,14 +102,14 @@ namespace Project_MovieWebAPIASPNETCore.Migrations
                         new
                         {
                             CharacterId = 2,
-                            Alias = "HBO",
-                            FullName = "Sven Swax",
-                            Gender = "Female",
+                            Alias = "Leo",
+                            FullName = "Leonardo Di Caprio",
+                            Gender = "Male",
                             Picture = "PicturLink"
                         });
                 });
 
-            modelBuilder.Entity("Project_MovieWebAPIASPNETCore.Models.Franchise", b =>
+            modelBuilder.Entity("Project_MovieWebAPIASPNETCore.Models.Domain.Franchise", b =>
                 {
                     b.Property<int>("FranchiseId")
                         .ValueGeneratedOnAdd()
@@ -122,7 +144,7 @@ namespace Project_MovieWebAPIASPNETCore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Project_MovieWebAPIASPNETCore.Models.Movie", b =>
+            modelBuilder.Entity("Project_MovieWebAPIASPNETCore.Models.Domain.Movie", b =>
                 {
                     b.Property<int>("MovieId")
                         .ValueGeneratedOnAdd()
@@ -135,9 +157,6 @@ namespace Project_MovieWebAPIASPNETCore.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<int?>("FranchiseId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("FranchisedId")
                         .HasColumnType("int");
 
                     b.Property<string>("Genre")
@@ -170,9 +189,10 @@ namespace Project_MovieWebAPIASPNETCore.Migrations
                         {
                             MovieId = 1,
                             Director = "David",
+                            FranchiseId = 1,
                             Genre = "Action",
                             Picture = "Link",
-                            Title = "The momory",
+                            Title = "The memory",
                             Trailer = "YouTubeLink",
                             Year = 2021
                         },
@@ -180,39 +200,63 @@ namespace Project_MovieWebAPIASPNETCore.Migrations
                         {
                             MovieId = 2,
                             Director = "John",
+                            FranchiseId = 2,
                             Genre = "Action",
                             Picture = "Link",
                             Title = "Bat Man",
                             Trailer = "YouTubeLink",
                             Year = 2020
+                        },
+                        new
+                        {
+                            MovieId = 3,
+                            Director = "John",
+                            FranchiseId = 2,
+                            Genre = "Action",
+                            Picture = "Link",
+                            Title = "Spider Man",
+                            Trailer = "YouTubeLink",
+                            Year = 2020
+                        },
+                        new
+                        {
+                            MovieId = 4,
+                            Director = "John",
+                            FranchiseId = 1,
+                            Genre = "Action",
+                            Picture = "Link",
+                            Title = "Maze Runner",
+                            Trailer = "YouTubeLink",
+                            Year = 2018
                         });
                 });
 
             modelBuilder.Entity("CharacterMovie", b =>
                 {
-                    b.HasOne("Project_MovieWebAPIASPNETCore.Models.Character", null)
+                    b.HasOne("Project_MovieWebAPIASPNETCore.Models.Domain.Character", null)
                         .WithMany()
-                        .HasForeignKey("CharactersCharacterId")
+                        .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Project_MovieWebAPIASPNETCore.Models.Movie", null)
+                    b.HasOne("Project_MovieWebAPIASPNETCore.Models.Domain.Movie", null)
                         .WithMany()
-                        .HasForeignKey("MoviesMovieId")
+                        .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Project_MovieWebAPIASPNETCore.Models.Movie", b =>
+            modelBuilder.Entity("Project_MovieWebAPIASPNETCore.Models.Domain.Movie", b =>
                 {
-                    b.HasOne("Project_MovieWebAPIASPNETCore.Models.Franchise", "Franchise")
+                    b.HasOne("Project_MovieWebAPIASPNETCore.Models.Domain.Franchise", "Franchise")
                         .WithMany("Movies")
-                        .HasForeignKey("FranchiseId");
+                        .HasForeignKey("FranchiseId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Franchise");
                 });
 
-            modelBuilder.Entity("Project_MovieWebAPIASPNETCore.Models.Franchise", b =>
+            modelBuilder.Entity("Project_MovieWebAPIASPNETCore.Models.Domain.Franchise", b =>
                 {
                     b.Navigation("Movies");
                 });

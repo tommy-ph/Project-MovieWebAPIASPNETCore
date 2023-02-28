@@ -5,6 +5,7 @@ namespace Project_MovieWebAPIASPNETCore.Models
 {
     public class MovieDBContext: DbContext
     {
+        //Creating tables 
         public DbSet<Movie> Movies { get; set;} 
         public DbSet<Character> Characters { get; set;}
         public DbSet<Franchise> Franchises { get;set;}
@@ -13,55 +14,49 @@ namespace Project_MovieWebAPIASPNETCore.Models
         { 
            
         }
-
+        //Initial data insert
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Movie>().HasData(
-                new Movie
-                {
-                    MovieId = 1,
-                    Title = "The momory",
-                    Genre = "Action",
-                    Year = 2021,
-                    Director = "David",
-                    Picture = "Link",
-                    Trailer = "YouTubeLink"
-                },
-                new Movie
-                {
-                    MovieId = 2,
-                    Title = "Bat Man",
-                    Genre = "Action",
-                    Year = 2020,
-                    Director = "John",
-                    Picture = "Link",
-                    Trailer = "YouTubeLink"
-                }
-                );
+            //Defining one-to-many relationships between Franchise and Movie
+            // Setting null on delete
+            modelBuilder.Entity<Movie>()
+                .HasOne(m => m.Franchise)
+                .WithMany(f => f.Movies)
+                .HasForeignKey(m => m.FranchiseId)
+                .OnDelete(DeleteBehavior.SetNull);
 
-            modelBuilder.Entity<Character>().HasData(
-                new Character
-                {
-                    CharacterId = 1,
-                    FullName = "David Swax",
-                    Alias = "HBO",
-                    Gender = "Male",
-                    Picture = "PicturLink"
-                },
-                 new Character
+            //Initialize tables with seed data
+            modelBuilder.Entity<Movie>().HasData(SeedData.GetMovies());
+            modelBuilder.Entity<Character>().HasData(SeedData.GetCharacters());
+            modelBuilder.Entity<Franchise>().HasData(SeedData.GetFranchises());
+
+            //Defining the many-tomany relationships table and inserting data 
+            modelBuilder.Entity<Movie>()
+                .HasMany(movie => movie.Characters)
+                .WithMany(character => character.Movies)
+                .UsingEntity<Dictionary<string, object>>(
+                 //"MovieCharacter",
+                 left => left.HasOne<Character>().WithMany().HasForeignKey("CharacterId")!,
+                 right => right.HasOne<Movie>().WithMany().HasForeignKey("MovieId"),
+                 joinEntity =>
                  {
-                     CharacterId = 2,
-                     FullName = "Sven Swax",
-                     Alias = "HBO",
-                     Gender = "Female",
-                     Picture = "PicturLink"
-                 });
+                     joinEntity.HasKey("MovieId", "CharacterId");
+                     joinEntity.HasData(
+                         //The code below sets the relationship between movie and character 
+                         //Character David Swax
+                         new { MovieId = 1, CharacterId = 1 },
+                         new { MovieId = 2, CharacterId = 1 },
+                         new { MovieId = 3, CharacterId = 1 },
+                         new { MovieId = 4, CharacterId = 1 },
 
-            modelBuilder.Entity<Franchise>().HasData(
-                new Franchise { FranchiseId = 1, Name = "HBOGothernburg", Description = "Welcome to GothenburgBIO" },
-                new Franchise { FranchiseId = 2, Name = "HBOStockholm", Description = "Welcome to StockholmBIO" }
+                         new { MovieId = 1, CharacterId = 2 },
+                         new { MovieId = 2, CharacterId = 2 },
+                         new { MovieId = 3, CharacterId = 2 },
+                         new { MovieId = 4, CharacterId = 2 }
+
+                         );
+                 }
                 );
-
         }
     }
 }
