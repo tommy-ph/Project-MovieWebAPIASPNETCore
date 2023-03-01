@@ -8,6 +8,7 @@ namespace Project_MovieWebAPIASPNETCore.Models
         {
             return new List<Movie>()
             {
+                //The Lords of the Ring
                 new()
                 {
                     MovieId = 1,
@@ -22,34 +23,57 @@ namespace Project_MovieWebAPIASPNETCore.Models
                 new()
                 {
                     MovieId = 2,
-                    Title = "Bat Man",
+                    Title = "The Hobbit: The Battle of the Five Armies",
                     Genre = "Action",
-                    Year = 2020,
-                    Director = "Matt Reeves",
-                    Picture = "https://www.thebatman.com/images/share.jpg",
-                    Trailer = "https://www.youtube.com/watch?v=lpeeXtsATYo",
-                    FranchiseId= 2,
+                    Year = 2014,
+                    Director = "Peter Jackson",
+                    Picture = "https://upload.wikimedia.org/wikipedia/en/0/0e/The_Hobbit_-_The_Battle_of_the_Five_Armies.jpg",
+                    Trailer = "https://www.youtube.com/watch?v=DxOvAs_SPvA",
+                    FranchiseId= 1,
                 },
+                //Game of Thrones
                 new()
                 {
                     MovieId = 3,
-                    Title = "Spider Man",
+                    Title = "Game of Thrones Season 1",
                     Genre = "Action",
-                    Year = 2020,
-                    Director = "Sam Raimi",
-                    Picture = "https://m.media-amazon.com/images/M/MV5BYTk3MDljOWQtNGI2My00OTEzLTlhYjQtOTQ4ODM2MzUwY2IwXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_FMjpg_UX1000_.jpg",
-                    Trailer = "https://www.youtube.com/watch?v=iaD2f2O9wGk",
+                    Year = 2011,
+                    Director = "Jeremy Podeswa",
+                    Picture = "https://upload.wikimedia.org/wikipedia/en/e/e8/Game_of_Thrones_Season_1.jpg",
+                    Trailer = "https://www.youtube.com/watch?v=REasBBiJm00",
                     FranchiseId= 2,
                 },
                 new()
                 {
                     MovieId = 4,
-                    Title = "Maze Runner",
+                    Title = "Game of Thrones Season 2 ",
+                    Genre = "Action",
+                    Year = 2012,
+                    Director = "Jeremy Podeswa",
+                    Picture = "https://letstalkcinemamovie.files.wordpress.com/2019/03/season-2.jpg",
+                    Trailer = "https://www.youtube.com/watch?v=hkjb-NEQjnk",
+                    FranchiseId= 2,
+                },
+                new()
+                {
+                    MovieId = 5,
+                    Title = "Maze Runner 1",
                     Genre = "Action",
                     Year = 2018,
                     Director = "Wes Ball",
                     Picture = "https://d2iltjk184xms5.cloudfront.net/uploads/photo/file/327788/7560e35531bfc0aedca67ebde8156d6b-cure-poster.jpg",
                     Trailer = "https://www.youtube.com/watch?v=FPZ3cWWnB_g",
+                    FranchiseId= 1,
+                },
+                new()
+                {
+                    MovieId = 6,
+                    Title = "Maze Runner 1",
+                    Genre = "Action",
+                    Year = 2018,
+                    Director = "Wes Ball",
+                    Picture = "https://i.ytimg.com/vi/-44_igsZtgU/maxresdefault.jpg",
+                    Trailer = "https://www.youtube.com/watch?v=E8IOB2USpMQ",
                     FranchiseId= 1,
                 }
             };
@@ -59,25 +83,10 @@ namespace Project_MovieWebAPIASPNETCore.Models
         {
             return new List<Character>()
             {
+
                 new()
                 {
-                    CharacterId = 1,
-                    FullName = "Thomas Brodie",
-                    Alias = "Newt",
-                    Gender = "Male",
-                    Picture = "https://flxt.tmsimg.com/assets/294818_v9_bc.jpg"
-                },
-                new()
-                {
-                     CharacterId = 2,
-                     FullName = "Ki Hong Lee",
-                     Alias = "Minho",
-                     Gender = "Male",
-                     Picture = "https://static.wikia.nocookie.net/vsbattles/images/a/a7/Minho.jpg/revision/latest?cb=20191010095625"
-                },
-                new()
-                {
-                     CharacterId = 3,
+                     CharacterId = 1,
                      FullName = "Aragorn II Elessar",
                      Alias = "Aragorn",
                      Gender = "Male",
@@ -85,16 +94,48 @@ namespace Project_MovieWebAPIASPNETCore.Models
                 },
                 new()
                 {
-                     CharacterId = 4,
+                     CharacterId = 2,
                      FullName = "Galadriel Stineman",
                      Alias = "Galadriel",
                      Gender = "Male",
                      Picture = "https://cdn.vox-cdn.com/thumbor/o9vHcxXd56YpUuoysEaC3YsVKco=/1400x1050/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/23981590/RPAZ_S1_UT_210709_GRAMAT_00291_R2.jpg"
+                },
+                new()
+                {
+                     CharacterId = 3,
+                     FullName = "Kit Harington",
+                     Alias = "Jon Snow",
+                     Gender = "Male",
+                     Picture = "https://static.hbo.com/content/dam/hbodata/series/game-of-thrones/character/s5/john-snow-1920.jpg?w=960"
+                },
+                new()
+                {
+                     CharacterId = 4,
+                     FullName = "EMILIA CLARKE",
+                     Alias = "Daenerys Targaryen",
+                     Gender = "Male",
+                     Picture = "https://static.hbo.com/content/dam/hbodata/series/game-of-thrones/character/s5/daenarys-1920.jpg?w=960"
+                },
+                new()
+                {
+                    CharacterId = 5,
+                    FullName = "Thomas Brodie",
+                    Alias = "Newt",
+                    Gender = "Male",
+                    Picture = "https://flxt.tmsimg.com/assets/294818_v9_bc.jpg"
+                },
+                new()
+                {
+                     CharacterId = 6,
+                     FullName = "Ki Hong Lee",
+                     Alias = "Minho",
+                     Gender = "Male",
+                     Picture = "https://static.wikia.nocookie.net/vsbattles/images/a/a7/Minho.jpg/revision/latest?cb=20191010095625"
                 }
             };
         }
 
-        public static IEnumerable<Franchise> GetFranchises() 
+        public static IEnumerable<Franchise> GetFranchises()
         {
             return new List<Franchise>()
             {
@@ -106,8 +147,8 @@ namespace Project_MovieWebAPIASPNETCore.Models
                 },
                 new()
                 {
-                    FranchiseId = 2, 
-                    Name = "HBOStockholm", 
+                    FranchiseId = 2,
+                    Name = "HBOStockholm",
                     Description = "Welcome to StockholmBIO"
                 }
             };
