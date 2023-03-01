@@ -35,7 +35,7 @@ namespace Project_MovieWebAPIASPNETCore.Models
                 .HasMany(movie => movie.Characters)
                 .WithMany(character => character.Movies)
                 .UsingEntity<Dictionary<string, object>>(
-                 //"MovieCharacter",
+                 "MovieCharacter",
                  left => left.HasOne<Character>().WithMany().HasForeignKey("CharacterId")!,
                  right => right.HasOne<Movie>().WithMany().HasForeignKey("MovieId"),
                  joinEntity =>
@@ -46,13 +46,23 @@ namespace Project_MovieWebAPIASPNETCore.Models
                          //Character David Swax
                          new { MovieId = 1, CharacterId = 1 },
                          new { MovieId = 2, CharacterId = 1 },
-                         new { MovieId = 3, CharacterId = 1 },
-                         new { MovieId = 4, CharacterId = 1 },
 
                          new { MovieId = 1, CharacterId = 2 },
                          new { MovieId = 2, CharacterId = 2 },
-                         new { MovieId = 3, CharacterId = 2 },
-                         new { MovieId = 4, CharacterId = 2 }
+
+
+                         new { MovieId = 3, CharacterId = 3 },
+                         new { MovieId = 4, CharacterId = 3 },
+
+                         new { MovieId = 3, CharacterId = 4 },
+                         new { MovieId = 4, CharacterId = 4 },
+
+
+                         new { MovieId = 5, CharacterId = 5 },
+                         new { MovieId = 6, CharacterId = 5 },
+
+                          new { MovieId = 5, CharacterId = 6 },
+                         new { MovieId = 6, CharacterId = 6 }
 
                          );
                  }
