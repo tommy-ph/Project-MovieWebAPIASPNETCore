@@ -26,6 +26,8 @@ namespace Project_MovieWebAPIASPNETCore
             //Need to Inject the DbContext in MovieService
             builder.Services.AddTransient<IMovieService, MovieService>();
             builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls= true);
+            builder.Services.AddTransient<ICharacterService, CharacterService>();
+            builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls =true);
 
             var app = builder.Build();
 
