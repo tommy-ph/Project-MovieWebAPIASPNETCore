@@ -28,6 +28,8 @@ namespace Project_MovieWebAPIASPNETCore
             builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls= true);
             builder.Services.AddTransient<ICharacterService, CharacterService>();
             builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls =true);
+            builder.Services.AddTransient<IFranchiseService, FranchiseService>();
+            builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
             var app = builder.Build();
 
