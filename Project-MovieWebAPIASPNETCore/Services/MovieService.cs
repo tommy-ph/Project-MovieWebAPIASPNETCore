@@ -23,7 +23,7 @@ namespace Project_MovieWebAPIASPNETCore.Services
 
         public async Task<Movie> GetMovieById(int id)
         {
-            var movie = await _context.Movies.FindAsync(id);
+            var movie = await _context.Movies.Include(m => m.Characters).SingleOrDefaultAsync(m => m.MovieId == id);
 
             if (movie == null)
             {
@@ -39,7 +39,6 @@ namespace Project_MovieWebAPIASPNETCore.Services
             {
                 throw new MovieNotFoundException(movie.MovieId);
             }
-            // _context.Entry(movie).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return movie;
         }

@@ -57,7 +57,6 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
                 return NotFound(new ProblemDetails
                 {
                     Detail = ex.Message,
-                    //Status = (int)HttpStatusCode.NotFound
                 });
             }
         }
@@ -82,7 +81,6 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
                 return NotFound(new ProblemDetails
                 {
                     Detail = ex.Message,
-                    //Status = (int)HttpStatusCode.NotFound
                 });
             }
 
@@ -120,10 +118,5 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
             }
             return NoContent();
         }
-
-        //private bool MovieExists(int id)
-        //{
-        //    return _context.Movies.Any(e => e.MovieId == id);
-        //}
     }
 }

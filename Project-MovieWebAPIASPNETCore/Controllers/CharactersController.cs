@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_MovieWebAPIASPNETCore.Exceptions;
 using Project_MovieWebAPIASPNETCore.Models;
 using Project_MovieWebAPIASPNETCore.Models.Domain;
+using Project_MovieWebAPIASPNETCore.Models.DTOs.Characters;
+using Project_MovieWebAPIASPNETCore.Models.DTOs.Movies;
 using Project_MovieWebAPIASPNETCore.Services;
 
 namespace Project_MovieWebAPIASPNETCore.Controllers
@@ -21,10 +24,12 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
     public class CharactersController : ControllerBase
     {
         private readonly ICharacterService _characterService;
+        private readonly IMapper _mapper;
 
-        public CharactersController(ICharacterService characterService)
+        public CharactersController(ICharacterService characterService, IMapper mapper)
         {
             _characterService = characterService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -33,9 +38,9 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
         /// <returns>List of character</returns>
         // GET: api/Characters
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Character>>> GetCharacters()
+        public async Task<ActionResult<IEnumerable<CharacterReadDto>>> GetCharacters()
         {
-            return Ok(await _characterService.GetAllCharacters());
+            return Ok(_mapper.Map<IEnumerable<CharacterReadDto>>(await _characterService.GetAllCharacters()));
         }
 
         // GET: api/Characters/5
@@ -45,11 +50,13 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
         /// <param name="id">A unique identifier for a character recource</param>
         /// <returns>A character recource</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<Character>> GetCharacter(int id)
+        public async Task<ActionResult<CharacterReadDto>> GetCharacter(int id)
         {
             try
             {
-                return await _characterService.GetCharacterById(id);
+                var character = await _characterService.GetCharacterById(id);
+                var characterReadDto = _mapper.Map<CharacterReadDto>(character);
+                return Ok(characterReadDto);
             }
             catch (CharacterNotFoundException ex)
             {
@@ -69,27 +76,28 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
         /// <param name="character"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCharacter(int id, Character character)
+        public async Task<IActionResult> PutCharacter(int id, CharacterEditDto characterEditDto)
         {
-            if (id != character.CharacterId)
+            if (id != characterEditDto.CharacterId)
             {
                 return BadRequest();
             }
 
             try
             {
+                var character = _mapper.Map<Character>(characterEditDto);
                 await _characterService.UpdateCharacter(character);
             }
-            catch (MovieNotFoundException ex)
+            catch (CharacterNotFoundException ex)
             {
                 return NotFound(new ProblemDetails
                 {
                     Detail = ex.Message,
-                    //Status = (int)HttpStatusCode.NotFound
                 });
             }
 
             return NoContent();
+
         }
 
         //// POST: api/Characters
@@ -100,9 +108,11 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
         /// <param name="character"></param>
         /// <returns>Return adding character</returns>
         [HttpPost]
-        public async Task<ActionResult<Character>> PostCharacter(Character character)
+        public async Task<ActionResult<CharacterReadDto>> PostCharacter(CharacterReadDto characterReadDto)
         {
-            return CreatedAtAction("GetCharacter", new { id = character.CharacterId }, await _characterService.AddCharacter(character));
+            var character = _mapper.Map<Character>(characterReadDto);
+            character = await _characterService.UpdateCharacter(character);
+            return CreatedAtAction(nameof(GetCharacter), new { id = character!.CharacterId }, _mapper.Map<CharacterReadDto>(character));
         }
 
         //// DELETE: api/Characters/5
@@ -124,15 +134,10 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
                 return NotFound(new ProblemDetails
                 {
                     Detail = ex.Message,
-                    //Status = (int)HttpStatusCode.NotFound
+
                 });
             }
             return NoContent();
         }
-
-        //private bool CharacterExists(int id)
-        //{
-        //    return _context.Characters.Any(e => e.CharacterId == id);
-        //}
     }
 }
