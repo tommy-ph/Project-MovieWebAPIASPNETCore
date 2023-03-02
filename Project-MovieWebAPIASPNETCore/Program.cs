@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Project_MovieWebAPIASPNETCore.Models;
 using Project_MovieWebAPIASPNETCore.Services;
+using System.Reflection;
 
 namespace Project_MovieWebAPIASPNETCore
 {
@@ -17,10 +19,36 @@ namespace Project_MovieWebAPIASPNETCore
             builder.Services.AddDbContext<MovieDBContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
             );
+            //Add AutoMapper
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+
+            //Add XML filen
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile) ;
+
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo //Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "(yet another) Movie API",
+                    Description ="YET ANOTHER MOVIE API",
+                    Contact = new OpenApiContact
+                    {
+                        Name="Tommy and Maryam",
+                        Url = new Uri("https://github.com/tommy-ph/Project-MovieWebAPIASPNETCore")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name= "Noroff 2023",
+                        Url = new Uri("https://github.com/tommy-ph/Project-MovieWebAPIASPNETCore")
+                    }
+                });
+                options.IncludeXmlComments(xmlPath);
+            });
 
             //Add the Configuration for the Movie AddTransient<IMovieService, MovieService>()
             //Need to Inject the DbContext in MovieService
