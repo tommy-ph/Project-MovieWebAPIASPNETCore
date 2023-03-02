@@ -16,17 +16,25 @@ namespace Project_MovieWebAPIASPNETCore.Services
         }
         public async Task<IEnumerable<Character>> GetAllCharacters()
         {
-            return await _context.Characters.ToListAsync();
+            return await _context.Characters.Include(c => c.Movies).ToListAsync();
         }
 
         public async Task<Character> GetCharacterById(int id)
         {
-            var character = await _context.Characters.FindAsync(id);
+            var character = await _context.Characters.Include(c => c.Movies).SingleOrDefaultAsync(c => c.CharacterId == id);
 
             if (character == null)
             {
                 throw new CharacterNotFoundException(id);
             }
+
+            return character;
+        }
+
+        public async Task<Character> AddCharacter(Character character)
+        {
+            _context.Characters.Add(character);
+            await _context.SaveChangesAsync();
 
             return character;
         }
@@ -38,16 +46,7 @@ namespace Project_MovieWebAPIASPNETCore.Services
             {
                 throw new CharacterNotFoundException(character.CharacterId);
             }
-            // _context.Entry(movie).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return character;
-        }
-
-        public async Task<Character> AddCharacter(Character character)
-        {
-            _context.Characters.Add(character);
-            await _context.SaveChangesAsync();
-
             return character;
         }
 
