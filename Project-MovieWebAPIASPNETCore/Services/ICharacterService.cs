@@ -9,5 +9,6 @@ namespace Project_MovieWebAPIASPNETCore.Services
         Task<Character> AddCharacter(Character character);
         Task<Character> UpdateCharacter(Character character);
         Task<Character> DeleteCharacter(int id);
+        Task<bool> CharacterExist(int id);
     }
 }

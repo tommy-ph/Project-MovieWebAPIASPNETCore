@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 using Project_MovieWebAPIASPNETCore.Exceptions;
 using Project_MovieWebAPIASPNETCore.Models;
 using Project_MovieWebAPIASPNETCore.Models.Domain;
@@ -83,6 +84,11 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
                 return BadRequest();
             }
 
+            if (!await _characterService.CharacterExist(id))
+            {
+                return NotFound();
+            }
+
             try
             {
                 var character = _mapper.Map<Character>(characterEditDto);
@@ -138,6 +144,11 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
                 });
             }
             return NoContent();
+        }
+
+        private async Task<bool> FranchiseExists(int id)
+        {
+            return await _characterService.CharacterExist(id);
         }
     }
 }

@@ -63,5 +63,10 @@ namespace Project_MovieWebAPIASPNETCore.Services
             await _context.SaveChangesAsync();
             return character;
         }
+
+        public async Task<bool> CharacterExist(int id)
+        {
+            return await _context.Characters.AnyAsync(c => c.CharacterId == id);
+        }
     }
 }
