@@ -32,7 +32,8 @@ namespace Project_MovieWebAPIASPNETCore.Services
         /// <exception cref="NotImplementedException"></exception>
         public async Task<Franchise> GetFranchiseById(int id)
         {
-            var franchise = await _context.Franchises.FindAsync(id);
+            var franchise = await _context.Franchises.Include(c => c.Movies).SingleOrDefaultAsync(f => f.FranchiseId == id);
+            // var character = await _context.Characters.Include(c => c.Movies).SingleOrDefaultAsync(c => c.CharacterId == id);
 
             if (franchise == null)
             {
