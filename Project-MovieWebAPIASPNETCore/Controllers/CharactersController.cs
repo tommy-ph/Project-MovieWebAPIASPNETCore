@@ -108,10 +108,10 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
         /// <param name="character"></param>
         /// <returns>Return adding character</returns>
         [HttpPost]
-        public async Task<ActionResult<CharacterReadDto>> PostCharacter(CharacterReadDto characterReadDto)
+        public async Task<ActionResult<CharacterReadDto>> PostCharacter(CharacterCreateDto characterCreateDto)
         {
-            var character = _mapper.Map<Character>(characterReadDto);
-            character = await _characterService.UpdateCharacter(character);
+            var character = _mapper.Map<Character>(characterCreateDto);
+            character = await _characterService.AddCharacter(character);
             return CreatedAtAction(nameof(GetCharacter), new { id = character!.CharacterId }, _mapper.Map<CharacterReadDto>(character));
         }
 

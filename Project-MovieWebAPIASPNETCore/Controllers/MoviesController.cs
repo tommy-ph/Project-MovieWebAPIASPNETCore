@@ -93,7 +93,7 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
         public async Task<ActionResult<MovieReadDto>> PostMovie(MovieCreateDto movieCreateDto)
         {
             var movie = _mapper.Map<Movie>(movieCreateDto);
-            movie = await _movieService.UpdateMovie(movie);
+            movie = await _movieService.AddMovie(movie);
 
             return CreatedAtAction(nameof(GetMovie), new { id = movie!.MovieId }, _mapper.Map<MovieReadDto>(movie));
         }

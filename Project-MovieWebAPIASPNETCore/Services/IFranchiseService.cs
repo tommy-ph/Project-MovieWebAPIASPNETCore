@@ -6,9 +6,12 @@ namespace Project_MovieWebAPIASPNETCore.Services
     {
         Task<IEnumerable<Franchise>> GetAllFranchises();
         Task<Franchise> GetFranchiseById(int id);
+        Task<IEnumerable<Movie>> GetAllMovieInFranchiseId(int id);
+        Task UpdateFranchiseMovie(int id, IEnumerable<int> movies);
         Task<Franchise> AddFranchise(Franchise franchise);
-        Task<Franchise> DeleteFranchise(int id);
         Task<Franchise> UpdateFranchise(Franchise franchise);
+        Task<bool> FranchiseExist(int id);
+        Task<Franchise> DeleteFranchise(int id);
 
     }
 }
