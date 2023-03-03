@@ -8,6 +8,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 using Project_MovieWebAPIASPNETCore.Exceptions;
 using Project_MovieWebAPIASPNETCore.Models.Domain;
 using Project_MovieWebAPIASPNETCore.Models.DTOs.Characters;
@@ -116,6 +117,43 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
                    
                 });
             }
+            return NoContent();
+        }
+
+        private async Task<bool> MovieExists(int id)
+        {
+            return await _movieService.MovieExist(id);
+        }
+
+        [HttpGet("{id:int}/Characters")]
+        public async Task<ActionResult<CharacterReadDto>> GetMovieInCharacters(int id)
+        {
+            if (!await _movieService.MovieExist(id))
+                return NotFound();
+
+            var movieCharacter = await _movieService.GetCharactersByMovieId(id);
+            var charactersReadDto = _mapper.Map<List<CharacterReadDto>>(movieCharacter);
+
+            return Ok(charactersReadDto);
+        }
+
+        [HttpPut("{id:int}/Characters")]
+        public async Task<IActionResult> UppdateMovieCharacters(int id, IEnumerable<int> characterMovieIds)
+        {
+            if (!await _movieService.MovieExist(id))
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                await _movieService.UpdateMovieCharactersByMovieId(id, characterMovieIds);
+            }
+            catch (MovieNotFoundException e)
+            {
+                return BadRequest(e.Message);
+            }
+
             return NoContent();
         }
     }

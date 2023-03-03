@@ -64,7 +64,36 @@ namespace Project_MovieWebAPIASPNETCore.Services
             await _context.SaveChangesAsync();
             return movie;
         }
+        public async Task<bool> MovieExist(int id)
+        {
+            return await _context.Movies.AnyAsync(m => m.MovieId == id);
+        }
 
-        
+        public async Task<IEnumerable<Character>> GetCharactersByMovieId(int id)
+        {
+            return await _context.Characters.Include(c => c.Movies).Where(c => c.Movies.Any(m => m.MovieId == id))
+            .ToListAsync();
+        }
+
+        public async Task UpdateMovieCharactersByMovieId(int id, IEnumerable<int> characterMovieIds)
+        {
+            var movieUpdate = await GetMovieById(id);
+            var newCharacter = new List<Character>();
+            foreach (var characterMovieId in characterMovieIds)
+            {
+                var character = await _context.Characters!.FindAsync(characterMovieId);
+                if (character is null)
+                {
+                    throw new KeyNotFoundException($"Character with id {characterMovieId} not found!");
+                }
+
+                newCharacter.Add(character);
+            }
+
+            movieUpdate!.Characters = newCharacter;
+            await UpdateMovie(movieUpdate);
+        }
+
+      
     }
 }
