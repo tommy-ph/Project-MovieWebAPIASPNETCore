@@ -22,7 +22,7 @@ namespace Project_MovieWebAPIASPNETCore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MovieCharacter", b =>
+            modelBuilder.Entity("CharacterMovie", b =>
                 {
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
@@ -34,7 +34,7 @@ namespace Project_MovieWebAPIASPNETCore.Migrations
 
                     b.HasIndex("CharacterId");
 
-                    b.ToTable("MovieCharacter");
+                    b.ToTable("CharacterMovie");
 
                     b.HasData(
                         new
@@ -322,7 +322,7 @@ namespace Project_MovieWebAPIASPNETCore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MovieCharacter", b =>
+            modelBuilder.Entity("CharacterMovie", b =>
                 {
                     b.HasOne("Project_MovieWebAPIASPNETCore.Models.Domain.Character", null)
                         .WithMany()

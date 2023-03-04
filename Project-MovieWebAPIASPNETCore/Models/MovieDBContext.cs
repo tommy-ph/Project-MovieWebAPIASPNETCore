@@ -35,7 +35,7 @@ namespace Project_MovieWebAPIASPNETCore.Models
                 .HasMany(movie => movie.Characters)
                 .WithMany(character => character.Movies)
                 .UsingEntity<Dictionary<string, object>>(
-                 "MovieCharacter",
+                 "CharacterMovie",
                  left => left.HasOne<Character>().WithMany().HasForeignKey("CharacterId")!,
                  right => right.HasOne<Movie>().WithMany().HasForeignKey("MovieId"),
                  joinEntity =>
