@@ -88,7 +88,6 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
             return Ok(moviesReadDto);
         }
 
-        // PUT: /franchises/1
         /// <summary>
         /// Update a franchise by franchise id
         /// </summary>
@@ -174,7 +173,7 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
         /// Updates a movies franchise by first selecting the id of the franchise you want to put and then the id of the movie you want to update the franchise of
         /// </summary>
         /// <param name="id">Id of the franchise</param>
-        /// <param name="movieIds">Enumerable of movies id's to replace</param>
+        /// <param name="movies">Enumerable of movies id's to replace</param>
         /// <returns>Status code 204 No content (success) or Status code 404 Not found (failure)</returns>
         [HttpPut("{id:int}/Movies")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
