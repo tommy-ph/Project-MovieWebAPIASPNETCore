@@ -74,7 +74,7 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
         /// Update the character
         /// </summary>
         /// <param name="id">Get a unique identifier that needs to update</param>
-        /// <param name="character"></param>
+        /// <param name="characterEditDto"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCharacter(int id, CharacterEditDto characterEditDto)
@@ -111,7 +111,7 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
         /// <summary>
         /// Add a character
         /// </summary>
-        /// <param name="character"></param>
+        /// <param name="characterCreateDto"></param>
         /// <returns>Return adding character</returns>
         [HttpPost]
         public async Task<ActionResult<CharacterReadDto>> PostCharacter(CharacterCreateDto characterCreateDto)

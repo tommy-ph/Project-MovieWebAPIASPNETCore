@@ -34,17 +34,25 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Movies
-        //Need to add the Configuration in Progam cs
+        /// <summary>
+        /// Gets all movies from the database
+        /// </summary>
+        /// <returns>A list of movies</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieReadDto>>> GetMovies()
         {
             return Ok(_mapper.Map<IEnumerable<MovieReadDto>>(await _movieService.GetAllMovies()));
         }
 
-        // GET: api/Movies/5
-        //Add Exception
+        /// <summary>
+        /// Gets a specifik movie based on a unique identifier 
+        /// </summary>
+        /// <param name="id">A unique identifier for a movie resource</param>
+        /// <returns>A movie resource</returns>
+        /// <returns>One specific movie or Status code 404 Not Found (failure)</returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MovieReadDto>> GetMovie(int id)
         {
             try
@@ -62,9 +70,16 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
             }
         }
 
-        //// PUT: api/Movies/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Updates a movie by movie Id
+        /// </summary>
+        /// <param name="id">The unique identifier for a movie</param>
+        /// <param name="movieEditDto">Movies Edit DTO model to update on</param>
+        /// <returns>Status code 204 No content (success) or Status code 404 Not found (failure)</returns>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutMovie(int id, MovieEditDto movieEditDto)
         {
             if (id != movieEditDto.MovieId)
@@ -88,9 +103,13 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
             return NoContent();
         }
 
-        // POST: api/Movies
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Add a new movie
+        /// </summary>
+        /// <param name="movieCreateDto">Movie Create DTO model to add new Movie</param>
+        /// <returns>Status code 204 No content (success) or Status code 404 Not found (failure)</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<MovieReadDto>> PostMovie(MovieCreateDto movieCreateDto)
         {
             var movie = _mapper.Map<Movie>(movieCreateDto);
@@ -99,8 +118,14 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
             return CreatedAtAction(nameof(GetMovie), new { id = movie!.MovieId }, _mapper.Map<MovieReadDto>(movie));
         }
 
-        // DELETE: api/Movies/5
+        /// <summary>
+        /// Delete a movie by movie id
+        /// </summary>
+        /// <param name="id">Id of the movie to delete</param>
+        /// <returns>Status code 204 No content (success) or Status code 404 Not found (failure)</returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteMovie(int id)
         {
            
@@ -125,7 +150,15 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
             return await _movieService.MovieExist(id);
         }
 
+
+        /// <summary>
+        /// Get all characters from a movie by movie id
+        /// </summary>
+        /// <param name="id">Id of the movie to get characters</param>
+        /// <returns>List of characters of the movie or Status code 404 Not Found (failure)</returns>
         [HttpGet("{id:int}/Characters")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CharacterReadDto>> GetMovieInCharacters(int id)
         {
             if (!await _movieService.MovieExist(id))
@@ -137,7 +170,16 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
             return Ok(charactersReadDto);
         }
 
+        /// <summary>
+        /// Update all characters from a movie by movie id with enumerable of character id's
+        /// </summary>
+        /// <param name="id">Id of the movie to update characters</param>
+        /// <param name="characterMovieIds">Enumerable of character ids to replace</param>
+        /// <returns>Status code 204 No content (success) or Status code 404 Not found (failure)</returns>
         [HttpPut("{id:int}/Characters")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UppdateMovieCharacters(int id, IEnumerable<int> characterMovieIds)
         {
             if (!await _movieService.MovieExist(id))

@@ -34,17 +34,17 @@ namespace Project_MovieWebAPIASPNETCore
                 options.SwaggerDoc("v1", new OpenApiInfo //Microsoft.OpenApi.Models.OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "(yet another) Movie API",
-                    Description ="YET ANOTHER MOVIE API",
+                    Title = "Movie API",
+                    Description = "RESTful ASP.NET Core Web API to manage movies, characters and franchises. Made for Noroff .Net Course Assignment #6.",
                     Contact = new OpenApiContact
                     {
-                        Name="Tommy and Maryam",
+                        Name="Tommy Pham and Maryam Al-mashhadi",
                         Url = new Uri("https://github.com/tommy-ph/Project-MovieWebAPIASPNETCore")
                     },
                     License = new OpenApiLicense
                     {
                         Name= "Noroff 2023",
-                        Url = new Uri("https://github.com/tommy-ph/Project-MovieWebAPIASPNETCore")
+                        Url = new Uri("https://www.noroff.no/")
                     }
                 });
                 options.IncludeXmlComments(xmlPath);
