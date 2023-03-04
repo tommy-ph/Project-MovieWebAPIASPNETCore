@@ -174,7 +174,7 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
         /// Update all characters from a movie by movie id with enumerable of character id's
         /// </summary>
         /// <param name="id">Id of the movie to update characters</param>
-        /// <param name="characterIds">Enumerable of character ids to replace</param>
+        /// <param name="characterMovieIds">Enumerable of character ids to replace</param>
         /// <returns>Status code 204 No content (success) or Status code 404 Not found (failure)</returns>
         [HttpPut("{id:int}/Characters")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
