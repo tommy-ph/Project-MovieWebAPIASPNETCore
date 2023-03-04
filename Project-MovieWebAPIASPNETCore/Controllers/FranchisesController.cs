@@ -171,9 +171,9 @@ namespace Project_MovieWebAPIASPNETCore.Controllers
         }
 
         /// <summary>
-        /// Updates a movies franchise??? NOT SURE!
+        /// Updates a movies franchise by first selecting the id of the franchise you want to put and then the id of the movie you want to update the franchise of
         /// </summary>
-        /// <param name="id">Id of the movie to update</param>
+        /// <param name="id">Id of the franchise</param>
         /// <param name="movieIds">Enumerable of movies id's to replace</param>
         /// <returns>Status code 204 No content (success) or Status code 404 Not found (failure)</returns>
         [HttpPut("{id:int}/Movies")]
